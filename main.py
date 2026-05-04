@@ -182,7 +182,7 @@ def create_charts(dataframe: pd.DataFrame, station_summary: pd.DataFrame) -> Non
     result_counts = dataframe["test_result"].value_counts().reindex(["PASS", "FAIL"], fill_value=0)
 
     plt.figure(figsize=(7, 5))
-    result_counts.plot(kind="bar", color=["green", "red"])
+    result_counts.plot(kind="bar")
     plt.title("Production Test Results")
     plt.xlabel("Test Result")
     plt.ylabel("Number of Tests")
@@ -193,11 +193,11 @@ def create_charts(dataframe: pd.DataFrame, station_summary: pd.DataFrame) -> Non
     plt.close()
 
     plt.figure(figsize=(8, 5))
-    plt.bar(
-        station_summary["test_station"],
-        station_summary["pass_rate_percent"],
-        color="steelblue",
-    )
+   plt.bar(
+    station_summary["test_station"],
+    station_summary["pass_rate_percent"],
+)
+
     plt.title("Pass Rate by Test Station")
     plt.xlabel("Test Station")
     plt.ylabel("Pass Rate [%]")
