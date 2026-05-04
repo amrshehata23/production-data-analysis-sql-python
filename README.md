@@ -31,6 +31,9 @@ production-data-analysis-sql-python/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
+├── screenshots/
+│   ├── pass_fail_chart.png
+│   └── station_pass_rate_chart.png
 └── outputs/
     ├── production_report.txt
     ├── pass_fail_chart.png
@@ -60,27 +63,51 @@ production_data.db
 outputs/production_report.txt
 outputs/pass_fail_chart.png
 outputs/station_pass_rate_chart.png
+Example Output
+Production Test Results
+
+Pass Rate by Test Station
+
 Example Analysis
 
 The program analyzes production test results and answers questions such as:
 
 How many products passed or failed?
+
 Which test station has the lowest pass rate?
+
 Which products failed the test?
+
 Were there abnormal temperature, voltage, or current values?
+
 What are the average measurement values?
+
 Skills Demonstrated
+
 SQL database creation
+
 SQL querying
+
 Data analysis with pandas
+
 Basic quality-control logic
+
 Data visualization with matplotlib
+
 Automated report generation
+
 Clean Python project structure
+
 Future Improvements
+
 Add more production test data
+
 Import data from CSV files
+
 Add trend analysis over time
+
 Build a dashboard for visualizing production quality
+
 Extend the project with cloud basics such as AWS or Azure
+
 Explore KQL and PySpark for larger datasets
