@@ -193,7 +193,7 @@ def create_charts(dataframe: pd.DataFrame, station_summary: pd.DataFrame) -> Non
     plt.close()
 
     plt.figure(figsize=(8, 5))
-   plt.bar(
+    plt.bar(
     station_summary["test_station"],
     station_summary["pass_rate_percent"],
 )
