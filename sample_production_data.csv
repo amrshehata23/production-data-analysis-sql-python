@@ -1,0 +1,16 @@
+product_id,test_station,temperature_c,voltage_v,current_a,test_duration_s,test_result
+P001,Station A,72.5,12.1,1.8,34.2,PASS
+P002,Station A,75.0,12.0,1.9,35.1,PASS
+P003,Station B,91.3,11.4,2.5,48.7,FAIL
+P004,Station B,88.0,11.7,2.2,45.3,FAIL
+P005,Station C,68.2,12.4,1.7,31.0,PASS
+P006,Station C,70.1,12.3,1.6,32.4,PASS
+P007,Station A,95.5,11.2,2.8,51.0,FAIL
+P008,Station B,73.4,12.2,1.9,36.5,PASS
+P009,Station C,69.8,12.5,1.5,30.8,PASS
+P010,Station A,84.6,11.9,2.1,42.0,PASS
+P011,Station B,92.4,11.5,2.6,49.8,FAIL
+P012,Station C,71.2,12.3,1.7,33.5,PASS
+P013,Station A,79.4,12.0,2.0,39.2,PASS
+P014,Station C,67.8,12.6,1.4,29.9,PASS
+P015,Station B,86.5,11.8,2.3,44.0,PASS
