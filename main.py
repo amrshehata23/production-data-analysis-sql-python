@@ -6,6 +6,7 @@ import pandas as pd
 
 
 DATABASE_FILE = Path("production_data.db")
+INPUT_FILE = Path("sample_production_data.csv")
 OUTPUT_DIR = Path("outputs")
 REPORT_FILE = OUTPUT_DIR / "production_report.txt"
 CHART_FILE = OUTPUT_DIR / "pass_fail_chart.png"
@@ -14,20 +15,6 @@ STATION_CHART_FILE = OUTPUT_DIR / "station_pass_rate_chart.png"
 HIGH_TEMPERATURE_LIMIT = 90.0
 LOW_VOLTAGE_LIMIT = 11.8
 HIGH_CURRENT_LIMIT = 2.4
-
-
-SAMPLE_DATA = [
-    ("P001", "Station A", 72.5, 12.1, 1.8, 34.2, "PASS"),
-    ("P002", "Station A", 75.0, 12.0, 1.9, 35.1, "PASS"),
-    ("P003", "Station B", 91.3, 11.4, 2.5, 48.7, "FAIL"),
-    ("P004", "Station B", 88.0, 11.7, 2.2, 45.3, "FAIL"),
-    ("P005", "Station C", 68.2, 12.4, 1.7, 31.0, "PASS"),
-    ("P006", "Station C", 70.1, 12.3, 1.6, 32.4, "PASS"),
-    ("P007", "Station A", 95.5, 11.2, 2.8, 51.0, "FAIL"),
-    ("P008", "Station B", 73.4, 12.2, 1.9, 36.5, "PASS"),
-    ("P009", "Station C", 69.8, 12.5, 1.5, 30.8, "PASS"),
-    ("P010", "Station A", 84.6, 11.9, 2.1, 42.0, "PASS"),
-]
 
 
 def create_database() -> None:
@@ -47,22 +34,44 @@ def create_database() -> None:
         """)
 
 
-def insert_sample_data() -> None:
-    """Insert sample production test data into the database."""
+def load_input_data() -> pd.DataFrame:
+    """Load production test data from a CSV input file."""
+    if not INPUT_FILE.exists():
+        raise FileNotFoundError(f"Input file not found: {INPUT_FILE}")
+
+    dataframe = pd.read_csv(INPUT_FILE)
+
+    required_columns = [
+        "product_id",
+        "test_station",
+        "temperature_c",
+        "voltage_v",
+        "current_a",
+        "test_duration_s",
+        "test_result",
+    ]
+
+    missing_columns = [column for column in required_columns if column not in dataframe.columns]
+
+    if missing_columns:
+        raise ValueError(f"Missing required columns in CSV file: {missing_columns}")
+
+    return dataframe
+
+
+def insert_data_from_csv() -> None:
+    """Insert production test data from the CSV file into the SQLite database."""
+    dataframe = load_input_data()
+
     with sqlite3.connect(DATABASE_FILE) as connection:
         connection.execute("DELETE FROM production_tests")
-        connection.executemany("""
-            INSERT INTO production_tests (
-                product_id,
-                test_station,
-                temperature_c,
-                voltage_v,
-                current_a,
-                test_duration_s,
-                test_result
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, SAMPLE_DATA)
+
+        dataframe.to_sql(
+            "production_tests",
+            connection,
+            if_exists="append",
+            index=False,
+        )
 
 
 def load_data() -> pd.DataFrame:
@@ -272,7 +281,7 @@ generation, and automated reporting with Python.
 
 def main() -> None:
     create_database()
-    insert_sample_data()
+    insert_data_from_csv()
 
     dataframe = load_data()
 
